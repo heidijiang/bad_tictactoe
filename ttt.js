@@ -55,6 +55,7 @@ function titleTimer(i,id) {
 			$(id).html(game.computer);
 			$(id).css("background-color","#383748")
 			$(id).css("color","white")
+			markState(game.computer);
 			result = checkWin();
 			postResult(result);
 
@@ -78,62 +79,22 @@ function markState (piece) {
 	return tiles;
 }
 
+
 function checkWin() {
-	if (tiles["sq1"]==tiles["sq2"] && tiles["sq1"]==tiles["sq3"]) {
-		if (tiles["sq1"]==game.user){
-			result = 1;
-		} else if (tiles["sq1"]==game.computer){
-			result=0;
+	result=-1;
+	winConds = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]];
+	for (i=0; i<winConds.length; ++i) {
+		cond = winConds[i];
+		tmp = [];
+		for(j=0; j<cond.length; ++j) {
+			tmp[j] = "sq"+String(cond[j]);
 		}
-	}
-	if (tiles["sq4"]==tiles["sq5"] && tiles["sq4"]==tiles["sq6"]) {
-		if (tiles["sq4"]==game.user){
-			result = 1;
-		} else if (tiles["sq4"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq7"]==tiles["sq8"] && tiles["sq7"]==tiles["sq9"]) {
-		if (tiles["sq7"]==game.user){
-			result = 1;
-		} else if (tiles["sq7"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq1"]==tiles["sq4"] && tiles["sq1"]==tiles["sq7"]) {
-		if (tiles["sq1"]==game.user){
-			result = 1;
-		} else if (tiles["sq1"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq2"]==tiles["sq5"] && tiles["sq2"]==tiles["sq8"]) {
-		if (tiles["sq2"]==game.user){
-			result = 1;
-		} else if (tiles["sq2"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq3"]==tiles["sq6"] && tiles["sq3"]==tiles["sq9"]) {
-		if (tiles["sq3"]==game.user){
-			result = 1;
-		} else if (tiles["sq3"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq1"]==tiles["sq5"] && tiles["sq9"]==tiles["sq1"]) {
-		if (tiles["sq1"]==game.user){
-			result = 1;
-		} else if (tiles["sq1"]==game.computer){
-			result=0;
-		}
-	}
-	if (tiles["sq3"]==tiles["sq5"] && tiles["sq3"]==tiles["sq7"]) {
-		if (tiles["sq3"]==game.user){
-			result = 1;
-		} else if (tiles["sq3"]==game.computer){
-			result=0;
-			return result
+		if (tiles[tmp[0]]==tiles[tmp[1]] && tiles[tmp[0]]==tiles[tmp[2]]) {
+			if (tiles[tmp[0]] == game.user){
+				result = 1;
+			} else if (tiles[tmp[0]]==game.computer) {
+				result = 0;
+			}
 		}
 	}
 	if (result==-1 && counter==9) {
@@ -171,7 +132,6 @@ function computerPlay() {
 		id = "#sq"+String(r);
 		if ($(id).html()!="X" && $(id).html()!="O") {
 			startTimer(id);
-			markState(game.computer);
 			fin = 1;
 		}
 	}
@@ -189,10 +149,7 @@ $(".col").on("click", function() {
 
         computerPlay();
 
-
     } else {
         $(".messages").html("Oops! This tile is taken!")
     }
-	
-
 });
