@@ -24,7 +24,7 @@ let tileHover = function(events) {
 	}
 };
 let tileHover2 = function(events) {
-	if ($(this).html()!=game.computer && result==-1){ 
+	if ($(this).html()!=game.computer){ 
     	$(this).removeAttr('style');
     }
 };
