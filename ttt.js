@@ -19,7 +19,7 @@ let counter = 0;
 let result = -1;
 let tileHover = function(events) {
 	if ($(this).html()!="X" && $(this).html()!="O" && result==-1){ 
-    	$(this).css("background-color","brown");
+    	$(this).css("background-color","#ecc859");
     	$(this).css("color","white");
 	}
 };
@@ -29,19 +29,43 @@ let tileHover2 = function(events) {
     }
 };
 
-
 $(".col").mouseenter(tileHover);
 $(".col").mouseleave(tileHover2);
 
-// function enterInfo() {
 
-//     game.user = document.forms["user"]["name"].value;
-//     if (document.getElementById("X").checked ==true) {
-//         game.piece = "X;
-//     } else {
-//         game.piece = "O";
-//     return game
-// }
+function titleColor() {
+	x = $("#lol").children();
+	name = x.text();
+	newName = '';
+	for (i=0; i<x.length; ++i) {
+		randColor = '#'+ (Math.random() * 0xffffff).toString(16).substr(-6);
+
+		newName += '<span style="color:'+randColor+'">'+ name.charAt(i) +'</span>';
+	}
+	$("#lol").html(newName)
+}
+
+function titleTimer(i,id) {
+	i++;
+	titleColor();
+	$(".messages").html("Computer is \"thinking\" lol...");
+	if (i<200) {
+		timeout = setTimeout(() => titleTimer(i,id));
+	} else {
+			$(id).html(game.computer);
+			$(id).css("background-color","#383748")
+			$(id).css("color","white")
+			result = checkWin();
+			postResult(result);
+
+	}
+}
+
+function startTimer(id) {
+	titleTimer(0,id);
+}
+
+
 function markState (piece) {
 	currState = $(".col");
 	for (i=0; i<currState.length; ++i) {
@@ -112,18 +136,16 @@ function checkWin() {
 			return result
 		}
 	}
-
 	if (result==-1 && counter==9) {
 		result = 2;
 	}
 	return result
-
 }
 
 function postResult(result) {
 	switch (result) {
 		case 0:
-			$(".messages").html("Game over! Try again!");
+			$(".messages").html("Wow, you were beaten by a random number generator. SAD!");
 			break;
 		case 1:
 			$(".messages").html("You win! Unfortunately, the computer was guessing randomly...");
@@ -142,29 +164,22 @@ function computerPlay() {
 	if (result>=0) {
 		return;
 	}
+
 	fin = 0;
 	while (fin==0){
 		r = Math.floor(Math.random()*9)+1;
 		id = "#sq"+String(r);
 		if ($(id).html()!="X" && $(id).html()!="O") {
-			$(id).html(game.computer);
-			$(id).css("background-color","midnightblue")
-			$(id).css("color","white")
+			startTimer(id);
 			markState(game.computer);
 			fin = 1;
 		}
 	}
-	result = checkWin();
-	postResult(result);
-	if (result>=0) {
-		return;
-	}
 }
+
+// main loop......... it's not the best
 $(".col").on("click", function() {
-	// $(this).selectTile();
-
 	if (result>=0) {
-
 
 	} else if ($(this).html()!="X" && $(this).html()!="O"){
         $(this).html(game.user);
@@ -181,18 +196,3 @@ $(".col").on("click", function() {
 	
 
 });
-
-// function startGame() {
-//     // game = enterInfo();
-//     count = 0;
-//     fin = 0;
-
-//     while (fin==0) {
-//     	if (game.user!="computer") {
-//     		$(".messages").html("It's " + game.user +"\'s turn! Make a move now!");	
-
-//     	}
-//     }
-
-
-// }
