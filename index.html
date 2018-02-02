@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>Title</title>
+    <style>
+        html,body {
+            background-color: #e6ddde;
+            font-family: futura, arial;
+            color: black;
+            height: 100%;
+            overflow: scroll;
+        }
+        .main {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .row{margin:1px}
+        .col{
+            display:flex;
+            background-color: antiquewhite;
+            border: 1px black solid;
+            width: 100px; height: 100px;
+            margin: 3px;
+            text-align:center;
+            align-items:center;
+            justify-content:center;
+            font-size:30px;
+            font-weight:bold;
+        }
+        h1 {border: 3px white solid; text-align: center; padding: 10px}
+        .userLogin{display:flex; flex-direction: row; margin:10px}
+        #userInput{width:100px; border:1px white solid; background-color:#e6ddde}
+        .button{border:1px black solid; background-color: rosybrown}
+        .pieceInput{border:none}
+        .messages{color: #ecc859; background-color: #383748; padding:10px; margin:20px; font-size:16px; width:310px; text-align: center;}
+        .userClass{background-color:#ecc859};
+        .computerClass{background-color:#383748; color:white;}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>TIC TAC TOE</h1>
+        <p></p>
+<!--         <div class = "userLogin">
+            <form id="user" action="#">
+                <input type="name" id="userInput" placeholder="Name:" required="">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="O" id="O" value="O">
+                    <label class="form-check-label" for="O">O</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="X" id="X" value="X">
+                    <label class="form-check-label" for="X">X</label>
+                </div>
+
+                <input type="submit" class="button" onclick="startGame()" value="Go!" name="go" class="button">
+            </form>
+
+        </div> -->
+        <div class="ttt_outer">
+            <div class="row">
+                <div class="col" id="sq1">
+                    
+                </div>
+                <div class="col" id="sq2">
+                    
+                </div>
+                <div class="col" id="sq3">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="sq4">
+                    
+                </div>
+                <div class="col" id="sq5">
+                    
+                </div>
+                <div class="col" id="sq6">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="sq7">
+                    
+                </div>
+                <div class="col" id="sq8">
+                    
+                </div>
+                <div class="col" id="sq9">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="messages">
+            	Welcome to tic tac toe! Enter your name and preferred piece to start!
+        </div>
+
+    </div>
+    <script type="text/javascript" src="ttt.js"> </script>
+</body>
+</html>
