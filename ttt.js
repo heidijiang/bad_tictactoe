@@ -177,7 +177,7 @@ function computerPlay() {
 	}
 }
 
-// main loop......... it's not the best
+// main mechanism for advancing game........ uhhh yea seriously not the best
 $(".col").on("click", function() {
 	if (result>=0) {
 
