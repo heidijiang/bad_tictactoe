@@ -74,7 +74,7 @@ function resetBoard() {
 	};
 	$(".col").removeClass("begin").removeClass("userClass").removeAttr("style").html("").removeAttr("style");
 	$(".start").html("START");
-	$(".messages").html("Welcome to tic tac toe! This game is basically impossible to outright lose.");
+	$(".messages").html("Welcome to tic tac toe! This game is basically impossible to lose outright.");
 }
 function assignPiece() {
 	let arr = Object.values(players);
@@ -128,11 +128,9 @@ function markState (piece) {
 		}
 	}
 	++game.counter;
-	return tiles;
 }
 
 function checkWin() {
-	game.result=-1;
 	for (let i=0; i<winConds.length; ++i) {
 		let cond = winConds[i];
 		let tmp = [];
@@ -150,19 +148,18 @@ function checkWin() {
 	if (game.result==-1 && game.counter==9) {
 		game.result = 2;
 	}
-	return game.result
 }
 
 function postResult() {
 	switch (game.result) {
 		case 0:
-			$(".messages").html("Wow, you were beaten by a random number generator. SAD!");
+			$(".messages").html("Wow, you were basically beaten by a random number generator. SAD!");
 			break;
 		case 1:
-			$(".messages").html("You win! Unfortunately, the computer was guessing randomly...");
+			$(".messages").html("You win! Nice to know you can beat 50 lines of code...");
 			break;
 		case 2:
-		$(".messages").html("Boo, it's a draw. What's the point of this players anyway?");
+		$(".messages").html("Boo, it's a draw. This game blows.");
 			break;
 		default:
 			$(".messages").html("It's your turn. Don't fuck this up man");
