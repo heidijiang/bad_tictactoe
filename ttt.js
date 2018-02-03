@@ -22,10 +22,12 @@ let tiles = {
 	sq8: '',
 	sq9: '',
 };
+
+let computerThinking=false;
 let winConds = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]];
 
 let tileHover = function(events) {
-    if (!Object.values(players).includes($(this).html()) && game.start==1 && game.result==-1){
+    if (!Object.values(players).includes($(this).html()) && !computerThinking && game.start==1 && game.result==-1){
         $(this).css("background-color","#ecc859");
         $(this).css("color","white");
     }
@@ -99,6 +101,7 @@ function titleColor() {
 
 function computerAction(i,id) {
 	i++;
+	computerThinking = true;
 	titleColor();
 	$(".messages").html("Computer is \"thinking\" lol...");
 	if (i<200) {
@@ -110,6 +113,7 @@ function computerAction(i,id) {
 			markState(players.computer);
 			checkWin();
 			postResult();
+			computerThinking = false;
 
 	}
 }
@@ -167,19 +171,6 @@ function postResult() {
 	}
 }
 
-function randomChoice() {
-	let fin = 0;
-	let id = 0;
-	while (fin==0) {
-        let r = Math.floor(Math.random() * 9) + 1;
-        id = "sq" + String(r);
-        if (!Object.values(players).includes($("#" + id).html())) {
-            fin = 1;
-        }
-    }
-	return id;
-}
-
 function sumPieces(piece,arr) {
     let t = 0;
     for (let i=0; i<arr.length; ++i) {
@@ -197,6 +188,7 @@ function fillThird(piece,arr) {
         }
     }
 }
+
 function fillSecond(diff) {
     let tmp=[];
     for (let i=0; i<9; i++) {
@@ -224,6 +216,7 @@ function fillSecond(diff) {
     r = Math.floor(Math.random()*indices.length);
     return indices[r]+1;
 }
+
 function winDecision() {
     let user = [];
     let comp = [];
@@ -231,11 +224,8 @@ function winDecision() {
     for (let i=0; i<winConds.length; ++i) {
         user[i] = sumPieces(players.user,winConds[i]);
         comp[i] = sumPieces(players.computer,winConds[i]);
-    }
-    for (let i=0; i<winConds.length; ++i) {
         diff[i] = comp[i]-user[i];
     }
-
     if (Math.max.apply(null,diff)==2) {
         let idx= diff.indexOf(2);
         let id = fillThird(players.computer,winConds[idx]);
@@ -254,9 +244,6 @@ function AI() {
 	let decision = '';
 	if(game.counter==0 || (game.counter==1 && tiles["sq5"]=='')) {
 		decision = "sq5";
-		return decision;
-	} else if (game.counter==1) {
-		decision = randomChoice();
 		return decision;
 	} else {
         decision = winDecision();
@@ -307,11 +294,10 @@ function startGame() {
 $(".col").on("click", function() {
     let piece = $(this).html();
     if (game.result >= 0 || game.start == 0) {
-
+    } else if (computerThinking) {	
     } else if (!Object.values(players).includes(piece)) {
         userPlay(this);
         computerPlay();
-
     } else {
         $(".messages").html("Oops! This tile is taken!")
     }
