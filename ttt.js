@@ -1,9 +1,16 @@
 
-let game = {
+let players = {
     user: 'X',
     computer: 'O',
 };
 
+let game = {
+	start: 0,
+	counter: 0,
+	result: -1,
+	first : "user"
+
+};
 let tiles = {
 	sq1: '',
 	sq2: '',
@@ -14,97 +21,140 @@ let tiles = {
 	sq7: '',
 	sq8: '',
 	sq9: '',
-}
-let counter = 0;
-let result = -1;
+};
+let winConds = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]];
+
 let tileHover = function(events) {
-	if ($(this).html()!="X" && $(this).html()!="O" && result==-1){ 
-    	$(this).css("background-color","#ecc859");
-    	$(this).css("color","white");
-	}
+    if (!Object.values(players).includes($(this).html()) && game.start==1 && game.result==-1){
+        $(this).css("background-color","#ecc859");
+        $(this).css("color","white");
+    }
 };
 let tileHover2 = function(events) {
-	if ($(this).html()!=game.computer){ 
-    	$(this).removeAttr('style');
+    if ($(this).html()!=players.computer){
+        $(this).removeAttr('style');
     }
 };
 
-$(".col").mouseenter(tileHover);
-$(".col").mouseleave(tileHover2);
+$(".col").mouseenter(tileHover).mouseleave(tileHover2);
 
+let startHover = function(events) {
+    $(this).css("background-color","#ecc859");
+    $(this).css("color","white");
+};
+let startHover2 = function(events) {
+    $(this).removeAttr('style');
+};
+$(".start").mouseenter(startHover).mouseleave(startHover2);
+
+
+function resetBoard() {
+	players = {
+	    user: 'X',
+	    computer: 'O',
+	};
+
+	game = {
+		start: 0,
+		counter: 0,
+		result: -1,
+		first : "user"
+
+	};
+	tiles = {
+		sq1: '',
+		sq2: '',
+		sq3: '',
+		sq4: '',
+		sq5: '',
+		sq6: '',
+		sq7: '',
+		sq8: '',
+		sq9: '',
+	};
+	$(".col").removeClass("begin").removeClass("userClass").removeAttr("style").html("").removeAttr("style");
+	$(".start").html("START");
+	$(".messages").html("Welcome to tic tac toe! This game is basically impossible to outright lose.");
+}
+function assignPiece() {
+	let arr = Object.values(players);
+	let r = Math.round(Math.random());
+	if (r==1) {
+		players.user = 'O';
+		players.computer = 'X';
+		game.first = "computer";
+	}
+}
 
 function titleColor() {
-	x = $("#lol").children();
-	name = x.text();
-	newName = '';
+	let x = $("#lol").children();
+	let oldName = x.text();
+	let newName = '';
 	for (i=0; i<x.length; ++i) {
 		randColor = '#'+ (Math.random() * 0xffffff).toString(16).substr(-6);
-
-		newName += '<span style="color:'+randColor+'">'+ name.charAt(i) +'</span>';
+		newName += '<span style="color:'+randColor+'">'+ oldName.charAt(i) +'</span>';
 	}
 	$("#lol").html(newName)
 }
 
-function titleTimer(i,id) {
+function computerAction(i,id) {
 	i++;
 	titleColor();
 	$(".messages").html("Computer is \"thinking\" lol...");
 	if (i<200) {
-		timeout = setTimeout(() => titleTimer(i,id));
+		timeout = setTimeout(() => computerAction(i,id));
 	} else {
-			$(id).html(game.computer);
+			$(id).html(players.computer);
 			$(id).css("background-color","#383748")
 			$(id).css("color","white")
-			markState(game.computer);
-			result = checkWin();
-			postResult(result);
+			markState(players.computer);
+			checkWin();
+			postResult();
 
 	}
 }
 
-function startTimer(id) {
-	titleTimer(0,id);
+function startComputer(id) {
+	computerAction(0,id);
 }
 
 
 function markState (piece) {
 	currState = $(".col");
-	for (i=0; i<currState.length; ++i) {
-		x = currState[i].id;
+	for (let i=0; i<currState.length; ++i) {
+		let x = currState[i].id;
 		if ($("#"+x).html()==piece){
-			tiles[String(x)] = piece; 
+			tiles[String(x)] = piece;
 		}
 	}
-	++counter;
+	++game.counter;
 	return tiles;
 }
 
-
 function checkWin() {
-	result=-1;
-	winConds = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]];
-	for (i=0; i<winConds.length; ++i) {
-		cond = winConds[i];
-		tmp = [];
-		for(j=0; j<cond.length; ++j) {
+	game.result=-1;
+	for (let i=0; i<winConds.length; ++i) {
+		let cond = winConds[i];
+		let tmp = [];
+		for(let j=0; j<cond.length; ++j) {
 			tmp[j] = "sq"+String(cond[j]);
 		}
 		if (tiles[tmp[0]]==tiles[tmp[1]] && tiles[tmp[0]]==tiles[tmp[2]]) {
-			if (tiles[tmp[0]] == game.user){
-				result = 1;
-			} else if (tiles[tmp[0]]==game.computer) {
-				result = 0;
+			if (tiles[tmp[0]] == players.user){
+				game.result = 1;
+			} else if (tiles[tmp[0]]==players.computer) {
+				game.result = 0;
 			}
 		}
 	}
-	if (result==-1 && counter==9) {
-		result = 2;
+	if (game.result==-1 && game.counter==9) {
+		game.result = 2;
 	}
-	return result
+	return game.result
 }
 
-function postResult(result) {
-	switch (result) {
+function postResult() {
+	switch (game.result) {
 		case 0:
 			$(".messages").html("Wow, you were beaten by a random number generator. SAD!");
 			break;
@@ -112,41 +162,157 @@ function postResult(result) {
 			$(".messages").html("You win! Unfortunately, the computer was guessing randomly...");
 			break;
 		case 2:
-		$(".messages").html("Boo, it's a draw. What's the point of this game anyway?");
+		$(".messages").html("Boo, it's a draw. What's the point of this players anyway?");
 			break;
 		default:
-			$(".messages").html("It's your turn again!");
+			$(".messages").html("It's your turn. Don't fuck this up man");
 			break;
 	}
 }
-function computerPlay() {
-	result = checkWin();
-	postResult(result);
-	if (result>=0) {
-		return;
-	}
 
-	fin = 0;
-	while (fin==0){
-		r = Math.floor(Math.random()*9)+1;
-		id = "#sq"+String(r);
-		if ($(id).html()!="X" && $(id).html()!="O") {
-			startTimer(id);
-			fin = 1;
-		}
-	}
+function randomChoice() {
+	let fin = 0;
+	let id = 0;
+	while (fin==0) {
+        let r = Math.floor(Math.random() * 9) + 1;
+        id = "sq" + String(r);
+        if (!Object.values(players).includes($("#" + id).html())) {
+            fin = 1;
+        }
+    }
+	return id;
 }
 
-// main mechanism for advancing game........ uhhh yea seriously not the best
+function sumPieces(piece,arr) {
+    let t = 0;
+    for (let i=0; i<arr.length; ++i) {
+        if (tiles["sq"+arr[i]]==piece) {
+            ++t;
+        }
+    }
+    return t;
+}
+
+function fillThird(piece,arr) {
+    for (let i=0; i<arr.length; ++i) {
+        if (tiles["sq"+arr[i]]!=piece) {
+            return arr[i];
+        }
+    }
+}
+function fillSecond(diff) {
+    let tmp=[];
+    for (let i=0; i<9; i++) {
+        if(tiles["sq"+(i+1)]=='') {
+            let tmp2 = [];
+            for (let w=0; w<winConds.length; ++w) {
+                if (Object.values(winConds[w]).includes(i+1)) {
+                    tmp2[w] = diff[w];
+                } else {
+                    tmp2[w] = -10;
+                }
+            }
+            tmp[i] = Math.max.apply(null,tmp2);
+        } else {
+            tmp[i] = -10;
+        }
+    }
+    let indices = [];
+    let m = Math.max.apply(null,tmp);
+    let idx = tmp.indexOf(m);
+    while (idx != -1) {
+        indices.push(idx);
+        idx = tmp.indexOf(m, idx + 1);
+    }
+    r = Math.floor(Math.random()*indices.length);
+    return indices[r]+1;
+}
+function winDecision() {
+    let user = [];
+    let comp = [];
+    let diff = [];
+    for (let i=0; i<winConds.length; ++i) {
+        user[i] = sumPieces(players.user,winConds[i]);
+        comp[i] = sumPieces(players.computer,winConds[i]);
+    }
+    for (let i=0; i<winConds.length; ++i) {
+        diff[i] = comp[i]-user[i];
+    }
+
+    if (Math.max.apply(null,diff)==2) {
+        let idx= diff.indexOf(2);
+        let id = fillThird(players.computer,winConds[idx]);
+        return "sq"+id;
+    } else if (Math.min.apply(null,diff)==-2){
+        let idx= diff.indexOf(-2);
+        let id = fillThird(players.user,winConds[idx]);
+        return "sq"+id;
+    } else {
+        let id = fillSecond(diff);
+        return "sq"+id;
+    }
+}
+
+function AI() {
+	let decision = '';
+	if(game.counter==0 || (game.counter==1 && tiles["sq5"]=='')) {
+		decision = "sq5";
+		return decision;
+	} else if (game.counter==1) {
+		decision = randomChoice();
+		return decision;
+	} else {
+        decision = winDecision();
+	}
+	return decision
+}
+
+function userPlay(pos) {
+    $(pos).html(players.user);
+    $(".messages").html("Great choice!")
+    $(pos).addClass("userClass");
+    markState(players.user);
+}
+
+function computerPlay() {
+	checkWin();
+	postResult();
+	if (game.result>=0) {
+		return;
+	}
+	let id = "#"+AI();
+	startComputer(id);
+}
+
+
+$(".start").on("click", function() {
+	if (game.start==0) {
+		startGame();
+		$(this).html("RESET");
+		$(this).css("background-color","#5a1616");
+	} else {
+		resetBoard()
+	}
+});
+
+
+function startGame() {
+	game.start = 1;
+	assignPiece();
+	$(".messages").html("You have been assigned role " + players.user + " so you start. What an advantage!");
+	$(".col").addClass("begin");
+	if (game.first=="computer") {
+		computerPlay();
+	}
+
+}
+// main mechanism for advancing players........ uhhh yea seriously not the best
 $(".col").on("click", function() {
-	if (result>=0) {
+    let piece = $(this).html();
+    if (game.result >= 0 || game.start == 0) {
 
-	} else if ($(this).html()!="X" && $(this).html()!="O"){
-        $(this).html(game.user);
-        $(".messages").html("Great choice!")
-        $(this).addClass("userClass");
-        markState(game.user);
-
+    } else if (!Object.values(players).includes(piece)) {
+        userPlay(this);
         computerPlay();
 
     } else {

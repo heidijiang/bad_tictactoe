@@ -4,7 +4,11 @@ html,body {
     color: black;
     height: 100%;
     overflow: scroll;
+    cursor: default;
 }
+
+h1 {text-align: center; padding: 10px; font-weight:bold;}
+
 .main {
     height: 100%;
     display: flex;
@@ -15,7 +19,7 @@ html,body {
 .row{margin:1px}
 .col{
     display:flex;
-    background-color: antiquewhite;
+    background-color: white;
     border: 1px black solid;
     width: 100px; height: 100px;
     margin: 3px;
@@ -25,10 +29,37 @@ html,body {
     font-size:30px;
     font-weight:bold;
 }
-h1 {text-align: center; padding: 10px; font-weight:bold;}
-.userLogin{display:flex; flex-direction: row; margin:10px}
-#userInput{width:100px; border:1px white solid; background-color:#e6ddde}
-.button{border:1px black solid; background-color: rosybrown}
+
 .pieceInput{border:none}
-.messages{color: #000000; background-color: #8d9883; padding:10px; margin:20px; font-size:16px; width:310px; text-align: center;}
-.userClass{background-color:#ecc859};
+
+.start {
+    border: 2px black solid;
+    background-color: #314a3b;
+    color:white;
+    margin: 10px;
+    margin-bottom:20px;
+    padding-left: 20px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 40px;
+    letter-spacing: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.messages{
+    color: #ffffff; 
+    border:1px black dashed; 
+    border-radius: 10px;
+    background-color: #c5a3b1; 
+    padding:10px; margin:20px; 
+    font-size:16px; width:310px; 
+    text-align:center;
+    align-items:center;
+    display:flex;
+    justify-content:center;
+    height: 75px;
+}
+
+.begin{background-color:antiquewhite}
+.userClass{background-color:#ecc859}
