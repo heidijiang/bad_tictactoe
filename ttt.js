@@ -190,29 +190,35 @@ function fillThird(piece,arr) {
 }
 
 function fillSecond(diff) {
-    let tmp=[];
-    for (let i=0; i<9; i++) {
-        if(tiles["sq"+(i+1)]=='') {
-            let tmp2 = [];
-            for (let w=0; w<winConds.length; ++w) {
-                if (Object.values(winConds[w]).includes(i+1)) {
-                    tmp2[w] = diff[w];
-                } else {
-                    tmp2[w] = -10;
-                }
-            }
-            tmp[i] = Math.max.apply(null,tmp2);
-        } else {
-            tmp[i] = -10;
-        }
-    }
-    let indices = [];
-    let m = Math.max.apply(null,tmp);
-    let idx = tmp.indexOf(m);
-    while (idx != -1) {
+	if (counter>1) {
+	    let tmp=[];
+	    for (let i=0; i<9; i++) {
+	        if(tiles["sq"+(i+1)]=='') {
+	            let tmp2 = [];
+	            for (let w=0; w<winConds.length; ++w) {
+	                if (Object.values(winConds[w]).includes(i+1)) {
+	                    tmp2[w] = diff[w];
+	                } else {
+	                    tmp2[w] = -100;
+	                }
+	            }
+	            tmp[i] = Math.max.apply(null,tmp2);
+	            // tmp[i] = tmp2.reduce(function(a,b) {if (a>=-1) return a+b},0)
+	        } else {
+	            tmp[i] = -100;
+	        }
+	    }
+	    let indices = [];
+	    let m = Math.max.apply(null,tmp);
+	    let idx = tmp.indexOf(m);
+	    while (idx != -1) {
         indices.push(idx);
         idx = tmp.indexOf(m, idx + 1);
     }
+	} else {
+		indices = [0, 2, 6, 8];
+	}
+
     r = Math.floor(Math.random()*indices.length);
     return indices[r]+1;
 }
@@ -268,6 +274,16 @@ function computerPlay() {
 	startComputer(id);
 }
 
+function startGame() {
+	game.start = 1;
+	assignPiece();
+	$(".messages").html("You have been assigned role " + players.user + " so you start. What an advantage!");
+	$(".col").addClass("begin");
+	if (game.first=="computer") {
+		computerPlay();
+	}
+
+}
 
 $(".start").on("click", function() {
 	if (game.start==0) {
@@ -279,17 +295,6 @@ $(".start").on("click", function() {
 	}
 });
 
-
-function startGame() {
-	game.start = 1;
-	assignPiece();
-	$(".messages").html("You have been assigned role " + players.user + " so you start. What an advantage!");
-	$(".col").addClass("begin");
-	if (game.first=="computer") {
-		computerPlay();
-	}
-
-}
 // main mechanism for advancing players........ uhhh yea seriously not the best
 $(".col").on("click", function() {
     let piece = $(this).html();
