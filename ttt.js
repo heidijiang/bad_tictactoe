@@ -190,6 +190,7 @@ function fillThird(piece,arr) {
 }
 
 function fillSecond(diff) {
+	let indices = [];
 	if (game.counter>1) {
 	    let tmp=[];
 	    for (let i=0; i<9; i++) {
@@ -208,7 +209,6 @@ function fillSecond(diff) {
 	            tmp[i] = -100;
 	        }
 	    }
-	    let indices = [];
 	    let m = Math.max.apply(null,tmp);
 	    let idx = tmp.indexOf(m);
 	    while (idx != -1) {
