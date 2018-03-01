@@ -190,7 +190,7 @@ function fillThird(piece,arr) {
 }
 
 function fillSecond(diff) {
-	if (counter>1) {
+	if (game.counter>1) {
 	    let tmp=[];
 	    for (let i=0; i<9; i++) {
 	        if(tiles["sq"+(i+1)]=='') {
