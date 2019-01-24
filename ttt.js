@@ -76,7 +76,7 @@ function resetBoard() {
 	};
 	$(".col").removeClass("begin").removeClass("userClass").removeAttr("style").html("").removeAttr("style");
 	$(".start").html("START");
-	$(".messages").html("Welcome to tic tac toe! This game is basically impossible to lose outright.");
+	$(".messages").html("Welcome to tic tac toe! This game is basically impossible to lose unless you're a big dummy.");
 }
 function assignPiece() {
 	let arr = Object.values(players);
@@ -103,7 +103,7 @@ function computerAction(i,id) {
 	i++;
 	computerThinking = true;
 	titleColor();
-	$(".messages").html("Computer is \"thinking\" lol...");
+	$(".messages").html("Computer is \"thinking\"...");
 	if (i<200) {
 		timeout = setTimeout(() => computerAction(i,id));
 	} else {
@@ -160,13 +160,13 @@ function postResult() {
 			$(".messages").html("Wow, you were basically beaten by a random number generator. SAD!");
 			break;
 		case 1:
-			$(".messages").html("You win! Nice to know you can beat 50 lines of code...");
+			$(".messages").html("You win!!! Nice.");
 			break;
 		case 2:
 		$(".messages").html("Boo, it's a draw. This game blows.");
 			break;
 		default:
-			$(".messages").html("It's your turn. Don't fuck this up man");
+			$(".messages").html("It's your turn.");
 			break;
 	}
 }
