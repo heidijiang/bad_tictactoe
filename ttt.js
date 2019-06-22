@@ -1,7 +1,7 @@
 
 let players = {
-    user: 'X',
-    computer: 'O',
+    user: '1',
+    computer: '0',
 };
 
 let game = {
@@ -52,8 +52,8 @@ $(".start").mouseenter(startHover).mouseleave(startHover2);
 
 function resetBoard() {
 	players = {
-	    user: 'X',
-	    computer: 'O',
+	    user: '1',
+	    computer: '0',
 	};
 
 	game = {
@@ -82,8 +82,8 @@ function assignPiece() {
 	let arr = Object.values(players);
 	let r = Math.round(Math.random());
 	if (r==1) {
-		players.user = 'O';
-		players.computer = 'X';
+		players.user = '0';
+		players.computer = '1';
 		game.first = "computer";
 	}
 }
@@ -94,7 +94,12 @@ function titleColor() {
 	let newName = '';
 	for (i=0; i<x.length; ++i) {
 		randColor = '#'+ (Math.random() * 0xffffff).toString(16).substr(-6);
-		newName += '<span style="color:'+randColor+'">'+ oldName.charAt(i) +'</span>';
+		if (i==0 || i==x.length-1) {
+			newName += '<span class="animal" style="color:'+randColor+'">'+ oldName.charAt(i) +'</span>';
+
+		} else {
+			newName += '<span style="color:'+randColor+'">'+ oldName.charAt(i) +'</span>';
+		}
 	}
 	$("#lol").html(newName)
 }
@@ -277,7 +282,7 @@ function computerPlay() {
 function startGame() {
 	game.start = 1;
 	assignPiece();
-	$(".messages").html("You have been assigned role " + players.user + " so you start. What an advantage!");
+	$(".messages").html("You get to start! Click anywhere on the board (but like... probably the center tile)");
 	$(".col").addClass("begin");
 	if (game.first=="computer") {
 		computerPlay();

@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "AFSAFGOG";
+    src: url("AFSAFGOG.TTF");
+}
 html,body {
     background-color: #e6ddde;
     font-family: futura, arial;
@@ -7,7 +11,7 @@ html,body {
     cursor: default;
 }
 
-h1 {text-align: center; padding: 10px; font-weight:bold;}
+h1 {text-align: center; padding: 10px; font-weight:bold; font-size: 30px;}
 
 .main {
     margin-top:40px;
@@ -29,6 +33,7 @@ h1 {text-align: center; padding: 10px; font-weight:bold;}
     justify-content:center;
     font-size:30px;
     font-weight:bold;
+    font-family: "AFSAFGOG";
 }
 
 .pieceInput{border:none}
@@ -60,6 +65,10 @@ h1 {text-align: center; padding: 10px; font-weight:bold;}
     display:flex;
     justify-content:center;
     height: 75px;
+}
+
+.animal {
+    font-family: "AFSAFGOG";
 }
 
 .begin{background-color:antiquewhite}
