@@ -1,4 +1,4 @@
-# tick tac toad
+# tick tackles toad
 
 check it out <a href="https://hhjiang.io/tick-tackles-toad">here</a>!
 
